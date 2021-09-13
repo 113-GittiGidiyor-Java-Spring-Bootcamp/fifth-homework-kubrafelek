@@ -7,6 +7,8 @@ import com.kubrafelek.homework05.model.Student;
 import com.kubrafelek.homework05.repository.CourseRepository;
 import com.kubrafelek.homework05.repository.StudentRepository;
 import com.kubrafelek.homework05.util.ErrorMessageConstants;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
@@ -15,6 +17,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+@Service
+@RequiredArgsConstructor
 public class StudentService {
 
     private final StudentRepository studentRepository;

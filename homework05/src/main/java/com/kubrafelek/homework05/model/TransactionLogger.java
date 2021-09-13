@@ -17,9 +17,10 @@ public class TransactionLogger {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    private int courseCode;
-    private long studentId;
+    private long instructorId;
+    private double previousSalary;
+    private double newSalary;
+    private double percentageValue;
     private LocalDateTime transactionDataTime;
     private String clientIpAddress;
     private String clientUrl;

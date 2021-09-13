@@ -11,7 +11,7 @@ import javax.validation.constraints.NotNull;
 @Data
 @AllArgsConstructor
 @RequiredArgsConstructor
-public class VisitingReseracherDTO extends InstructorDTO{
+public class VisitingResearcherDTO extends InstructorDTO{
 
     @ApiModelProperty(example = "100.0")
     @NotNull(message = "Hourly Salary is mandatory")

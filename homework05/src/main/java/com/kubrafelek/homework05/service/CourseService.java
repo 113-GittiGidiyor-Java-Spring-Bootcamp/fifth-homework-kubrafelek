@@ -89,8 +89,8 @@ public class CourseService {
 
    private void saveTransactionToDatabase(Course course, int courseCode, Student student, TransactionType transactionType) {
         TransactionLogger transactionLogger = new TransactionLogger();
-        transactionLogger.setCourseCode(courseCode);
-        transactionLogger.setStudentId(student.getId());
+      //  transactionLogger.setCourseCode(courseCode);
+      //  transactionLogger.setStudentId(student.getId());
         transactionLogger.setTransactionDataTime(LocalDateTime.now());
         transactionLogger.setClientUrl(clientRequestInfo.getClientUrl());
         transactionLogger.setClientIpAddress(clientRequestInfo.getClientIpAddress());

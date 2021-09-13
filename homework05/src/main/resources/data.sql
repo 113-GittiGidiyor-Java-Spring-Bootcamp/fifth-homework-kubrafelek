@@ -1,4 +1,3 @@
-/*
 insert into student(id, name, birthdate, address, gender) values (1, 'Merve Anık', '1997-08-07', 'Merter', 'Female');
 insert into student(id, name, birthdate, address, gender) values (2, 'Leyna Ak', '1997-08-07', 'Merter', 'Female');
 insert into student(id, name, birthdate, address, gender) values (3, 'Anıl Sürel', '1998-08-07', 'Merter', 'Male');
@@ -31,4 +30,4 @@ insert into course(id, course_name, course_code, credit_score) values (6, 'Opera
 insert into instructor(id, name, address, phone_number) values (1, 'Emine Ekin', 'Şile', '0212-423-6776');
 insert into instructor(id, name, address, phone_number) values (2, 'Olcay Yıldız', 'Şile', '0212-423-6476');
 insert into instructor(id, name, address, phone_number) values (3, 'Boray Tek', 'Şile', '0212-423-6276');
-*/
+

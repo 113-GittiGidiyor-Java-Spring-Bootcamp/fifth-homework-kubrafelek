@@ -1,7 +1,11 @@
 package com.kubrafelek.homework05.controller;
 
 import com.kubrafelek.homework05.dto.InstructorDTO;
+import com.kubrafelek.homework05.dto.PermanentInstructorDTO;
+import com.kubrafelek.homework05.dto.VisitingResearcherDTO;
 import com.kubrafelek.homework05.model.Instructor;
+import com.kubrafelek.homework05.model.PermanentInstructor;
+import com.kubrafelek.homework05.model.VisitingResearcher;
 import com.kubrafelek.homework05.service.InstructorService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -30,16 +34,37 @@ public class InstructorController {
 
     /**
      * The method add the new instructor.
-     *
-     * @param instructorDTO The instructor object
      */
-    @PostMapping("/add-instructor")
+ /*   @PostMapping("/add-instructor")
     public ResponseEntity<Instructor> addInstructor(@RequestBody InstructorDTO instructorDTO) {
 
         Optional<Instructor> resultOptional = instructorService.saveInstructor(instructorDTO);
         if (resultOptional.isPresent()) {
             return new ResponseEntity<>(resultOptional.get(), HttpStatus.OK);
         }
+        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    }*/
+    @PostMapping("/add-permanent-instructor")
+    public ResponseEntity<PermanentInstructor> addPermanentInstructor(@RequestBody PermanentInstructorDTO permanentInstructorDTO) {
+
+        Optional<PermanentInstructor> resultOptional = instructorService.savePermanentInstructor(permanentInstructorDTO);
+
+        if (resultOptional.isPresent()) {
+            return new ResponseEntity<>(resultOptional.get(), HttpStatus.OK);
+        }
+
+        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    }
+
+    @PostMapping("/add-visiting-researcher")
+    public ResponseEntity<VisitingResearcher> addVisitingResearcher(@RequestBody VisitingResearcherDTO visitingResearcherDTO) {
+
+        Optional<VisitingResearcher> resultOptional = instructorService.saveVisitingResearcher(visitingResearcherDTO);
+
+        if (resultOptional.isPresent()) {
+            return new ResponseEntity<>(resultOptional.get(), HttpStatus.OK);
+        }
+
         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 
@@ -73,4 +98,25 @@ public class InstructorController {
     public ResponseEntity<Instructor> deleteIntructorById(@PathVariable long id) {
         return new ResponseEntity(instructorService.deleteInstructorById(id), HttpStatus.ACCEPTED);
     }
+
+    /**
+     * The method deletes exist instructor by using id.
+     *
+     * @param instructorId    The instructor id
+     * @param percentageName  The percentage name
+     * @param percentageValue The percentage value
+     */
+    @PutMapping("salaryChangingProcess/{instructorId}/{percentageName}/{percentageValue}")
+    public ResponseEntity<PermanentInstructor> salaryChanging(@PathVariable long instructorId,
+                                                              @PathVariable("percentageName") String percentageName,
+                                                              @PathVariable double percentageValue) {
+        Optional<PermanentInstructor> resultOptional = instructorService.salaryChanging(instructorId, percentageName, percentageValue);
+
+        if (resultOptional.isPresent()) {
+            return new ResponseEntity<>(resultOptional.get(), HttpStatus.OK);
+        }
+
+        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    }
+
 }

@@ -1,4 +1,4 @@
-#Modeller (Entity)
+###Modeller (Entity)
 
 * Student
 * Instructor
@@ -6,7 +6,7 @@
 
 -> Toplam da 3 adet model vardır. Controller üzerinde response ve request işlemleri DTO kapsamında gerçekleştirilmiştir.
 
--> Instructor~Course arasında **OneToMany** ilişkisi - Student~Course arasında **ManyToMany** ilişkisi bulunmaktadır.
+-> Instructor-Course arasında **OneToMany** ilişkisi ve Student-Course arasında **ManyToMany** ilişkisi bulunmaktadır.
 
 ## Nasıl kullanabilirim ?
 

@@ -17,12 +17,18 @@ import com.kubrafelek.homework05.model.enumeration.TransactionType;
 import com.kubrafelek.homework05.repository.InstructorRepository;
 import com.kubrafelek.homework05.repository.TransactionLoggerRepository;
 import com.kubrafelek.homework05.util.ClientRequestInfo;
+import com.kubrafelek.homework05.util.ValidateDateUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -45,18 +51,6 @@ public class InstructorService {
 
     @Autowired
     private TransactionLoggerRepository transactionLoggerRepository;
-
-/*    @Transactional
-    public Optional<Instructor> saveInstructor(InstructorDTO instructorDTO) {
-
-        boolean isExists = instructorRepository.selectExistsPhoneNumber(instructorDTO.getPhoneNumber());
-        if (isExists) {
-            throw new InstructorIsAlreadyExistException("Instructor phone number " + instructorDTO.getPhoneNumber() + " is already exists !");
-        }
-
-        Instructor instructor = instructorMapper.mapFromInstructorDTOtoInstructor(instructorDTO);
-        return Optional.of(instructorRepository.save(instructor));
-    }*/
 
     @Transactional
     public Optional<PermanentInstructor> savePermanentInstructor(PermanentInstructorDTO permanentInstructorDTO) {
@@ -175,4 +169,20 @@ public class InstructorService {
         this.transactionLoggerRepository.save(transactionLogger);
     }
 
+    public Page<List<TransactionLogger>> getAllTransactionsWithDate(String transactionDate, Integer page, Integer size, Pageable pageable) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d/MM/yyyy");
+        ValidateDateUtil.validateTransactionDate(transactionDate, formatter);
+        LocalDate transactionDateResult = LocalDate.parse(transactionDate, formatter);
+        if(page != null && size != null){
+            pageable = PageRequest.of(page, size);
+        }
+        return this.transactionLoggerRepository.findAllTransactionByTransactionDate(transactionDateResult, pageable);
+    }
+
+    public Page<List<TransactionLogger>> getAllTransactionsWithId(long instructorId, Integer page, Integer size, Pageable pageable) {
+        if(page != null && size != null){
+            pageable = PageRequest.of(page, size);
+        }
+        return this.transactionLoggerRepository.findAllTransactionByTransactionId(instructorId, pageable);
+    }
 }

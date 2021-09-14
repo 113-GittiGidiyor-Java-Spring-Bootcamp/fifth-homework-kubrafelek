@@ -19,4 +19,5 @@ public interface InstructorRepository extends CrudRepository<Instructor, Long> {
 
     @Query("select v.hourlySalary from VisitingResearcher v where v.id = :instructorId")
     double findVisitingResearcherSalary(long instructorId);
+
 }

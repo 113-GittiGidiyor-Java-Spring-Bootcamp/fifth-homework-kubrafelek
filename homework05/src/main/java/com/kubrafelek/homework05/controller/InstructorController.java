@@ -7,7 +7,11 @@ import com.kubrafelek.homework05.model.Instructor;
 import com.kubrafelek.homework05.model.PermanentInstructor;
 import com.kubrafelek.homework05.model.VisitingResearcher;
 import com.kubrafelek.homework05.service.InstructorService;
+import io.swagger.annotations.ApiParam;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -31,19 +35,6 @@ public class InstructorController {
     }
 
     //valid anotasyonu eklenmedi
-
-    /**
-     * The method add the new instructor.
-     */
- /*   @PostMapping("/add-instructor")
-    public ResponseEntity<Instructor> addInstructor(@RequestBody InstructorDTO instructorDTO) {
-
-        Optional<Instructor> resultOptional = instructorService.saveInstructor(instructorDTO);
-        if (resultOptional.isPresent()) {
-            return new ResponseEntity<>(resultOptional.get(), HttpStatus.OK);
-        }
-        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-    }*/
     @PostMapping("/add-permanent-instructor")
     public ResponseEntity<PermanentInstructor> addPermanentInstructor(@RequestBody PermanentInstructorDTO permanentInstructorDTO) {
 
@@ -137,6 +128,26 @@ public class InstructorController {
         }
 
         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    }
+
+    @GetMapping("/get-transactions-by-date")
+    public ResponseEntity<Page<List<Instructor>>> getAllTransactionsWithDate(
+            @ApiParam(value = "transaction query for instructor usage", example = "14/09/2021", required = true)
+            @RequestParam String transactionDate,
+            @RequestParam(required = false) Integer pageNumber,
+            @RequestParam(required = false) Integer pageSize,
+            @PageableDefault(page = 0, size = 10) Pageable pageable){
+        return new ResponseEntity(this.instructorService.getAllTransactionsWithDate(transactionDate, pageNumber, pageSize, pageable), HttpStatus.OK);
+    }
+
+    @GetMapping("/get-transactions-by-id")
+    public ResponseEntity<Page<List<Instructor>>> getAllTransactionsWithId(
+            @ApiParam(value = "transaction query for instructor usage", example = "4", required = true)
+            @RequestParam long instructorId,
+            @RequestParam(required = false) Integer pageNumber,
+            @RequestParam(required = false) Integer pageSize,
+            @PageableDefault(page = 0, size = 10) Pageable pageable){
+        return new ResponseEntity(this.instructorService.getAllTransactionsWithId(instructorId, pageNumber, pageSize, pageable), HttpStatus.OK);
     }
 
 }

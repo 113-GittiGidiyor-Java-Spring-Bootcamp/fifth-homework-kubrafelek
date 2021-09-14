@@ -109,38 +109,63 @@ public class InstructorService {
     }
 
     @Transactional
-    public Optional<PermanentInstructor> salaryChanging(long instructorId, String percentageName, double percentageValue) {
+    public Optional<PermanentInstructor> salaryChangingPermanentInstructor(long instructorId, String percentageName, double percentageValue) {
 
-        Optional<PermanentInstructor> permanentInstructor = ;
-        double currentSalary = permanentInstructor.get().getFixedSalary();
+        double currentSalary = instructorRepository.findPermanentInstructorSalary(instructorId);
+        TransactionType transactionType = null;
+        double newSalary = 0.0;
 
         if (percentageName.equals(PercentageSign.MINUS.getPercentageName())) {
-
-            permanentInstructor.get().setFixedSalary(permanentInstructor.get().getFixedSalary() - (permanentInstructor.get().getFixedSalary() * (percentageValue / 100)));
-            this.saveTransactionToDatabase(permanentInstructor.get(), percentageValue, percentageName, TransactionType.SALARY_DECREASED);
-
+            newSalary = currentSalary - (currentSalary * (percentageValue / 100));
+            transactionType = TransactionType.SALARY_DECREASED;
         } else if (percentageName.equals(PercentageSign.PLUS.getPercentageName())) {
-
-            permanentInstructor.get().setFixedSalary(permanentInstructor.get().getFixedSalary() + (permanentInstructor.get().getFixedSalary() * (percentageValue / 100)));
-            this.saveTransactionToDatabase(permanentInstructor.get(), percentageValue, percentageName, TransactionType.SALARY_INCREASED);
-
-        } else {
-            throw new BadRequestException("400 STATUS");
+            newSalary = currentSalary + (currentSalary * (percentageValue / 100));
+            transactionType = TransactionType.SALARY_INCREASED;
         }
-        instructorRepository.save(permanentInstructor.get());
-        return permanentInstructor;
+
+        PermanentInstructor permanentInstructor = (PermanentInstructor) findInstructorById(instructorId);
+        permanentInstructor.setFixedSalary(newSalary);
+        instructorRepository.save(permanentInstructor);
+
+        this.saveTransactionToDatabase(instructorId, percentageValue, newSalary, currentSalary, transactionType);
+        return Optional.of(permanentInstructor);
     }
 
-    private void saveTransactionToDatabase(PermanentInstructor permanentInstructor, double percentageValue, String percentageName, TransactionType transactionType) {
-        TransactionLogger transactionLogger = new TransactionLogger();
+    @Transactional
+    public Optional<VisitingResearcher> salaryChangingVisitingResearcher(long instructorId, String percentageName, double percentageValue) {
 
-        if (transactionType.equals(TransactionType.SALARY_DECREASED)) {
-            transactionLogger.setPreviousSalary(permanentInstructor.getFixedSalary() + (permanentInstructor.getFixedSalary() * (percentageValue / 100)));
-        } else if (transactionType.equals(TransactionType.SALARY_INCREASED)) {
-            transactionLogger.setPreviousSalary(permanentInstructor.getFixedSalary() - (permanentInstructor.getFixedSalary() * (percentageValue / 100)));
+        double currentSalary = instructorRepository.findVisitingResearcherSalary(instructorId);
+        TransactionType transactionType = null;
+        double newSalary = 0.0;
+
+        if (percentageName.equals(PercentageSign.MINUS.getPercentageName())) {
+            newSalary = currentSalary - (currentSalary * (percentageValue / 100));
+            transactionType = TransactionType.SALARY_DECREASED;
+        } else if (percentageName.equals(PercentageSign.PLUS.getPercentageName())) {
+            newSalary = currentSalary + (currentSalary * (percentageValue / 100));
+            transactionType = TransactionType.SALARY_INCREASED;
         }
 
-        transactionLogger.setNewSalary(permanentInstructor.getFixedSalary());
+        VisitingResearcher visitingResearcher = (VisitingResearcher) findInstructorById(instructorId);
+        visitingResearcher.setHourlySalary(newSalary);
+        instructorRepository.save(visitingResearcher);
+        this.saveTransactionToDatabase(instructorId, percentageValue, newSalary, currentSalary, transactionType);
+        return Optional.of(visitingResearcher);
+    }
+
+    private void saveTransactionToDatabase(long instructorId, double percentageValue, double newSalary, double previousSalary, TransactionType transactionType) {
+        TransactionLogger transactionLogger = new TransactionLogger();
+
+        transactionLogger.setInstructorId(instructorId);
+        transactionLogger.setPercentageValue(percentageValue);
+
+        if (transactionType.equals(TransactionType.SALARY_DECREASED)) {
+            transactionLogger.setPreviousSalary(previousSalary);
+        } else if (transactionType.equals(TransactionType.SALARY_INCREASED)) {
+            transactionLogger.setPreviousSalary(previousSalary);
+        }
+
+        transactionLogger.setNewSalary(newSalary);
         transactionLogger.setTransactionDataTime(LocalDateTime.now());
         transactionLogger.setClientUrl(clientRequestInfo.getClientUrl());
         transactionLogger.setClientIpAddress(clientRequestInfo.getClientIpAddress());
@@ -150,7 +175,4 @@ public class InstructorService {
         this.transactionLoggerRepository.save(transactionLogger);
     }
 
-    private Optional<PermanentInstructor> getSalary(long instructorId) {
-        return instructorRepository.findInstructorSalary(instructorId);
-    }
 }

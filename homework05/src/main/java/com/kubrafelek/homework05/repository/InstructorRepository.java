@@ -15,5 +15,8 @@ public interface InstructorRepository extends CrudRepository<Instructor, Long> {
     boolean selectExistsPhoneNumber(String phoneNumber);
 
     @Query("select p.fixedSalary from PermanentInstructor p where p.id = :instructorId")
-    Optional<PermanentInstructor> findInstructorSalary(long instructorId);
+    double findPermanentInstructorSalary(long instructorId);
+
+    @Query("select v.hourlySalary from VisitingResearcher v where v.id = :instructorId")
+    double findVisitingResearcherSalary(long instructorId);
 }

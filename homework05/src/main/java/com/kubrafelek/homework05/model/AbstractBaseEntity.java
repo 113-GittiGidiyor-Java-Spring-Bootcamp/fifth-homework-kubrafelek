@@ -28,4 +28,5 @@ public abstract class AbstractBaseEntity {
     @JsonIgnore
     private Instant lastModifiedDate = Instant.now();
 
+
 }

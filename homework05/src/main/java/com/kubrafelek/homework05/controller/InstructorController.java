@@ -100,20 +100,40 @@ public class InstructorController {
     }
 
     /**
-     * The method deletes exist instructor by using id.
+     * The method add permanent instructor.
      *
      * @param instructorId    The instructor id
      * @param percentageName  The percentage name
      * @param percentageValue The percentage value
      */
-    @PutMapping("salaryChangingProcess/{instructorId}/{percentageName}/{percentageValue}")
-    public ResponseEntity<PermanentInstructor> salaryChanging(@PathVariable long instructorId,
-                                                              @PathVariable("percentageName") String percentageName,
-                                                              @PathVariable double percentageValue) {
-        Optional<PermanentInstructor> resultOptional = instructorService.salaryChanging(instructorId, percentageName, percentageValue);
+    @PutMapping("salaryChangingPermanentInstructor/{instructorId}/{percentageName}/{percentageValue}")
+    public ResponseEntity<PermanentInstructor> salaryChangingPermanentInstructor(@PathVariable long instructorId,
+                                                                                 @PathVariable("percentageName") String percentageName,
+                                                                                 @PathVariable double percentageValue) {
+        Optional<PermanentInstructor> resultOptional = instructorService.salaryChangingPermanentInstructor(instructorId, percentageName, percentageValue);
 
         if (resultOptional.isPresent()) {
-            return new ResponseEntity<>(resultOptional.get(), HttpStatus.OK);
+            return new ResponseEntity(resultOptional.get(), HttpStatus.OK);
+        }
+
+        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    }
+
+    /**
+     * The method add visiting researcher.
+     *
+     * @param instructorId    The instructor id
+     * @param percentageName  The percentage name
+     * @param percentageValue The percentage value
+     */
+    @PutMapping("salaryChangingVisitingResearcher/{instructorId}/{percentageName}/{percentageValue}")
+    public ResponseEntity<VisitingResearcher> salaryChangingVisitingResearcher(@PathVariable long instructorId,
+                                                                               @PathVariable("percentageName") String percentageName,
+                                                                               @PathVariable double percentageValue) {
+        Optional<VisitingResearcher> resultOptional = instructorService.salaryChangingVisitingResearcher(instructorId, percentageName, percentageValue);
+
+        if (resultOptional.isPresent()) {
+            return new ResponseEntity(resultOptional.get(), HttpStatus.OK);
         }
 
         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);

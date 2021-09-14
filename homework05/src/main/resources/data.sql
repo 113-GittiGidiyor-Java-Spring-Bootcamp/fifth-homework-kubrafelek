@@ -27,6 +27,7 @@ insert into course(id, course_name, course_code, credit_score) values (4, 'Datab
 insert into course(id, course_name, course_code, credit_score) values (5, 'Algorithm Analysis', 312, 3);
 insert into course(id, course_name, course_code, credit_score) values (6, 'Operations System', 334, 3);
 
+
 insert into instructor(id, name, address, phone_number) values (1, 'Emine Ekin', 'Şile', '0212-423-6776');
 insert into instructor(id, name, address, phone_number) values (2, 'Olcay Yıldız', 'Şile', '0212-423-6476');
 insert into instructor(id, name, address, phone_number) values (3, 'Boray Tek', 'Şile', '0212-423-6276');

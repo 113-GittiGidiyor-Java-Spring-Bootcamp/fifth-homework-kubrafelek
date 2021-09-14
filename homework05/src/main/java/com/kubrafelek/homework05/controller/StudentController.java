@@ -31,8 +31,24 @@ public class StudentController {
      *
      * @param studentDTO The student object
      */
-    @PostMapping("/save-student")
+    @PostMapping("/save-student-to-course")
     public ResponseEntity<Student> saveStudentToCourse(@RequestBody StudentDTO studentDTO) {
+
+        Optional<Student> resultOptional = studentService.saveStudentToCourse(studentDTO);
+
+        if (resultOptional.isPresent()) {
+            return new ResponseEntity<>(resultOptional.get(), HttpStatus.OK);
+        }
+        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    }
+
+    /**
+     * The method add the new student.
+     *
+     * @param studentDTO The student object
+     */
+    @PostMapping("/save-student")
+    public ResponseEntity<Student> saveStudent(@RequestBody StudentDTO studentDTO) {
 
         Optional<Student> resultOptional = studentService.saveStudent(studentDTO);
 

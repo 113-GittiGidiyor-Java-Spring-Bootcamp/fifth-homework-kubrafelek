@@ -33,6 +33,17 @@ public class StudentService {
         return studentList;
     }
 
+    public Optional<Student> saveStudentToCourse(StudentDTO studentDTO) {
+        //Checked the student age is valid for this function
+        Period studentPeriod = Period.between(studentDTO.getBirthdate(), LocalDate.now());
+        if (studentPeriod.getYears() < 18 || studentPeriod.getYears() > 40) {
+            throw new StudentAgeNotValidException(ErrorMessageConstants.STUDENT_AGE);
+        }
+
+        Student student = studentMapper.mapFromStudentDTOtoStudent(studentDTO);
+        return Optional.of(studentRepository.save(student));
+    }
+
     public Optional<Student> saveStudent(StudentDTO studentDTO) {
         //Checked the student age is valid for this function
         Period studentPeriod = Period.between(studentDTO.getBirthdate(), LocalDate.now());

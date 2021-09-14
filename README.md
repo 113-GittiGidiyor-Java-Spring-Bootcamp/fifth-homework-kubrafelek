@@ -1,4 +1,4 @@
-#Modeller (Entity)
+###Modeller (Entity)
 
 * Student
 * Instructor
@@ -6,7 +6,7 @@
 
 -> Toplam da 3 adet model vardır. Controller üzerinde response ve request işlemleri DTO kapsamında gerçekleştirilmiştir.
 
--> Instructor~Course arasında **OneToMany** ilişkisi - Student~Course arasında **ManyToMany** ilişkisi bulunmaktadır.
+-> Instructor-Course arasında **OneToMany** ilişkisi ve Student-Course arasında **ManyToMany** ilişkisi bulunmaktadır.
 
 ## Nasıl kullanabilirim ?
 
@@ -27,7 +27,7 @@
 - MapStruct
 - Spring Boot Test
 
-### - Salaey Transaction işlemlerinin kayıtları
+### - Salary Transaction işlemlerinin kayıtları
 ![](ss/Ekran%20Resmi%202021-09-14%2013.52.16.png)
 ---
 

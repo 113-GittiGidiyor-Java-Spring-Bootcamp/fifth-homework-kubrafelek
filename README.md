@@ -27,7 +27,7 @@
 - MapStruct
 - Spring Boot Test
 
-### - Salaey Transaction işlemlerinin kayıtları
+### - Salary Transaction işlemlerinin kayıtları
 ![](ss/Ekran%20Resmi%202021-09-14%2013.52.16.png)
 ---
 
